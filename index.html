@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Art Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --bg-gradient: linear-gradient(180deg,#7fa39a,#2e4f49);
+  --header:#6f7f7a;
+  --white:#fff;
+  --dark:#1d2b27;
+  --radius:18px;
+  --transition:0.35s ease;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+  background:var(--bg-gradient);
+  color:var(--white);
+  overflow-x:hidden;
+}
+
+/* ================= HEADER ================= */
+header{
+  background:var(--header);
+  padding:14px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  background:#eaeaea;
+  color:#000;
+  padding:6px 14px;
+  border-radius:4px;
+  font-weight:bold;
+}
+
+.nav{
+  display:flex;
+  gap:30px;
+}
+
+.menu-btn{
+  font-size:22px;
+  cursor:pointer;
+  display:none;
+}
+
+/* ================= MOBILE MENU ================= */
+.mobile-menu{
+  position:fixed;
+  top:0;
+  right:-260px;
+  width:240px;
+  height:100vh;
+  background:#111;
+  padding:30px;
+  transition:var(--transition);
+  z-index:1000;
+}
+
+.mobile-menu.active{ right:0; }
+
+.mobile-menu a{
+  display:block;
+  color:#fff;
+  margin-bottom:18px;
+  text-decoration:none;
+}
+
+.close{
+  font-size:22px;
+  margin-bottom:30px;
+  cursor:pointer;
+}
+
+/* ================= MAIN ================= */
+main{
+  max-width:1200px;
+  margin:30px auto 80px;
+  padding:0 20px;
+}
+
+/* ================= HERO ================= */
+.hero{
+  height:260px;
+  border-radius:var(--radius);
+  margin-bottom:30px;
+  background-size:cover;
+  background-position:center;
+}
+
+/* ================= FILTER ================= */
+.filters{
+  display:flex;
+  gap:12px;
+  margin-bottom:30px;
+  flex-wrap:wrap;
+}
+
+.filter-btn{
+  padding:8px 16px;
+  border-radius:20px;
+  background:rgba(255,255,255,0.15);
+  cursor:pointer;
+  font-size:14px;
+  transition:var(--transition);
+}
+
+.filter-btn.active,
+.filter-btn:hover{
+  background:#fff;
+  color:#000;
+}
+
+/* ================= GALLERY ================= */
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+}
+
+.art{
+  height:160px;
+  border-radius:14px;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  transition:var(--transition);
+  background-size:cover;
+  background-position:center;
+}
+
+.art:hover{
+  transform:translateY(-6px);
+}
+
+.art::after{
+  content:"View";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.45);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  transition:var(--transition);
+}
+
+.art:hover::after{ opacity:1; }
+
+/* ================= FEATURE ================= */
+.feature{
+  margin-top:50px;
+  height:260px;
+  border-radius:var(--radius);
+  background-size:cover;
+  background-position:center;
+}
+
+/* ================= LIGHTBOX ================= */
+.lightbox{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.8);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:var(--transition);
+  z-index:2000;
+}
+
+.lightbox.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.lightbox-content{
+  width:90%;
+  max-width:700px;
+  height:450px;
+  border-radius:var(--radius);
+  background-size:cover;
+  background-position:center;
+  position:relative;
+}
+
+.lightbox-close{
+  position:absolute;
+  top:10px;
+  right:14px;
+  font-size:22px;
+  cursor:pointer;
+  color:#000;
+  background:#fff;
+  border-radius:50%;
+  padding:4px 8px;
+}
+
+/* ================= SCROLL ANIMATION ================= */
+.reveal{
+  opacity:0;
+  transform:translateY(30px);
+  transition:0.6s ease;
+}
+
+.reveal.visible{
+  opacity:1;
+  transform:none;
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:1024px){
+  .gallery{ grid-template-columns:repeat(3,1fr); }
+}
+
+@media(max-width:768px){
+  .nav{display:none;}
+  .menu-btn{display:block;}
+  .gallery{ grid-template-columns:repeat(2,1fr); }
+}
+
+@media(max-width:480px){
+  .gallery{ grid-template-columns:1fr; }
+  .hero,.feature{ height:220px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="menu">
+  <div class="close" onclick="toggleMenu()">✕</div>
+  <a href="#">Work</a>
+  <a href="#">About</a>
+  <a href="#">News</a>
+  <a href="#">Contact</a>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">Logo</div>
+  <div class="nav">
+    <span>Work</span>
+    <span>About</span>
+    <span>News</span>
+    <span>Contact</span>
+  </div>
+  <div class="menu-btn" onclick="toggleMenu()">☰</div>
+</header>
+
+<!-- MAIN -->
+<main>
+
+  <!-- HERO -->
+  <section class="hero reveal"
+    style="background-image:url('https://images.unsplash.com/photo-1513364776144-60967b0f800f');">
+  </section>
+
+  <!-- FILTERS -->
+  <div class="filters reveal">
+    <div class="filter-btn active" data-filter="all">All</div>
+    <div class="filter-btn" data-filter="painting">Painting</div>
+    <div class="filter-btn" data-filter="abstract">Abstract</div>
+    <div class="filter-btn" data-filter="photo">Photography</div>
+  </div>
+
+  <!-- GALLERY -->
+  <section class="gallery">
+  <div class="art reveal" data-category="abstract"
+    style="background-image:url('https://images.unsplash.com/photo-1519681393784-d120267933ba');"></div>
+
+  <div class="art reveal" data-category="abstract"
+    style="background-image:url('https://images.unsplash.com/photo-1541701494587-cb58502866ab');"></div>
+
+  <div class="art reveal" data-category="photo"
+    style="background-image:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee');"></div>
+
+  <div class="art reveal" data-category="painting"
+    style="background-image:url('https://images.unsplash.com/photo-1541963463532-d68292c34b19');"></div>
+
+  <div class="art reveal" data-category="abstract"
+    style="background-image:url('https://images.unsplash.com/photo-1541701494587-cb58502866ab');"></div>
+
+  <div class="art reveal" data-category="photo"
+    style="background-image:url('https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e');"></div>
+
+  <div class="art reveal" data-category="painting"
+    style="background-image:url('https://images.unsplash.com/photo-1504196606672-aef5c9cefc92');"></div>
+
+  <div class="art reveal" data-category="abstract"
+    style="background-image:url('https://images.unsplash.com/photo-1519681393784-d120267933ba');"></div>
+</section>
+
+  <!-- FEATURE -->
+  <section class="feature reveal"
+    style="background-image:url('https://images.unsplash.com/photo-1501785888041-af3ef285b470');">
+  </section>
+
+</main>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-content" id="lightboxContent">
+    <div class="lightbox-close" onclick="closeLightbox()">✕</div>
+  </div>
+</div>
+
+<script>
+/* MOBILE MENU */
+function toggleMenu(){
+  document.getElementById('menu').classList.toggle('active');
+}
+
+/* LIGHTBOX */
+const lightbox = document.getElementById('lightbox');
+const lightboxContent = document.getElementById('lightboxContent');
+
+document.querySelectorAll('.art').forEach(art=>{
+  art.addEventListener('click',()=>{
+    const bg = window.getComputedStyle(art).backgroundImage;
+    lightboxContent.style.backgroundImage = bg;
+    lightbox.classList.add('active');
+  });
+});
+
+function closeLightbox(){
+  lightbox.classList.remove('active');
+}
+
+/* FILTER */
+const buttons = document.querySelectorAll('.filter-btn');
+const items = document.querySelectorAll('.art');
+
+buttons.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    buttons.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+
+    items.forEach(item=>{
+      item.style.display =
+        filter === 'all' || item.dataset.category === filter
+        ? 'block' : 'none';
+    });
+  });
+});
+
+/* SCROLL REVEAL */
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+    }
+  });
+},{ threshold:0.15 });
+
+reveals.forEach(r=>observer.observe(r));
+</script>
+
+</body>
+</html>
